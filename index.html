@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>lea — 25mmトラックボール搭載の無線分割キーボード</title>
+    <meta name="description" content="37キー、無線の分割キーボード lea。右手側に25mmトラックボール搭載。白 ¥31,800 / 黒 ¥39,800 / 半透明 ¥39,800。BOOTHで販売、現在は再販準備中。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #f7f3ec;
+        --paper-2: #efe8dc;
+        --ink: #211d17;
+        --ink-soft: #57503f;
+        --line: #d8cfbc;
+        --accent: #bc3f16;
+        --accent-ink: #ffffff;
+        --card: #fffdf8;
+        --key-top: #2b2721;
+        --key-edge: #14110d;
+        --chip: #e9e1cf;
+      }
+      :root[data-theme="dark"] {
+          --paper: #171410;
+          --paper-2: #1f1a15;
+          --ink: #ece5d5;
+          --ink-soft: #a89d88;
+          --line: #3a332a;
+          --accent: #e0682f;
+          --accent-ink: #17120c;
+          --card: #201b16;
+          --key-top: #35302a;
+          --key-edge: #0c0a08;
+          --chip: #2c261e;
+      }
+      :root[data-theme="light"] { color-scheme: light; }
+      :root[data-theme="dark"] { color-scheme: dark; }
+      :root[data-theme="glass"] {
+        color-scheme: light;
+        --paper: rgba(233, 240, 244, .55);
+        --paper-2: rgba(255, 255, 255, .38);
+        --ink: #22303a;
+        --ink-soft: #546874;
+        --line: rgba(255, 255, 255, .65);
+        --accent: #bc3f16;
+        --accent-ink: #ffffff;
+        --card: rgba(255, 255, 255, .42);
+        --key-top: rgba(255, 255, 255, .55);
+        --key-edge: rgba(110, 130, 142, .55);
+        --chip: rgba(255, 255, 255, .5);
+      }
+      :root[data-theme="glass"] body {
+        background: linear-gradient(155deg, #b9cdd8 0%, #dfe9ee 34%, #ccd9e4 62%, #e9eef0 100%);
+        background-attachment: fixed;
+      }
+      :root[data-theme="glass"] .hero-specs > div, :root[data-theme="glass"] .hero-specs > a { background: linear-gradient(155deg, #b9cdd8 0%, #dfe9ee 34%, #ccd9e4 62%, #e9eef0 100%); background-attachment: fixed;  transition: box-shadow .25s ease; }
+      :root[data-theme="glass"] .hero-specs > div:hover, :root[data-theme="glass"] .hero-specs > a:hover { box-shadow: inset 0 0 0 999px rgba(188, 63, 22, .08); }
+      :root[data-theme="glass"] .trybox,
+      :root[data-theme="glass"] .variant-photo,
+      :root[data-theme="glass"] .readout {
+        backdrop-filter: blur(14px) saturate(1.6);
+        -webkit-backdrop-filter: blur(14px) saturate(1.6);
+      }
+      body { transition: background-color .5s ease, color .5s ease; }
+      .trybox, .variant-photo, .variant-tabs button, .stat, .combo-list li {
+        transition: background-color .5s ease, border-color .5s ease, color .5s ease;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+        font-size: 16px;
+        line-height: 1.85;
+        -webkit-font-smoothing: antialiased;
+      }
+      img { display: block; max-width: 100%; }
+      a { color: inherit; }
+      .mono { font-family: "IBM Plex Mono", monospace; }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4.5vw, 48px); }
+
+      /* ---------- hero ---------- */
+      .hero {
+        position: relative;
+        min-height: 94svh;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        background: #100e0c;
+      }
+      @media (max-width: 820px) {
+        .hero { min-height: 0; aspect-ratio: 3 / 2; }
+      }
+      .hero-scroll {
+        position: absolute; inset: 0;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+      }
+      .hero-scroll::-webkit-scrollbar { display: none; }
+      .hero-slide { position: relative; flex: 0 0 100%; scroll-snap-align: start; }
+      .hero-slide img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        object-position: 50% 42%;
+      }
+      .hero-pager {
+        position: absolute; top: 16px; left: clamp(18px, 4.5vw, 48px); z-index: 3;
+        display: flex; align-items: center; gap: 8px;
+        color: #f5efe2;
+      }
+      .hero-pager .pname { font-size: 13px; font-weight: 700; letter-spacing: .12em; margin-left: 2px; }
+      .hero-brand { display: none; }
+      @media (min-width: 900px) {
+        .hero-brand { display: block; position: absolute; top: 22px; right: clamp(18px, 4.5vw, 48px); z-index: 5; font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: clamp(30px, 3.6vw, 46px); line-height: 1; letter-spacing: .01em; color: #f5efe2; text-shadow: 0 1px 14px rgba(0, 0, 0, .35); }
+      }
+      .hero-pager .pdot {
+        width: 26px; height: 26px; padding: 0;
+        border-radius: 50%; border: 1.5px solid rgba(245,239,226,.85);
+        background: rgba(10,8,6,.25); cursor: pointer;
+        display: grid; place-items: center;
+      }
+      .hero-pager .pdot::after {
+        content: ""; width: 9px; height: 9px; border-radius: 50%;
+        background: rgba(245,239,226,.35);
+        transition: background .25s ease, transform .25s ease;
+      }
+      .hero-pager .pdot[aria-selected="true"]::after { background: #f5efe2; transform: scale(1.3); }
+      .hero .scrim {
+        position: absolute; inset: 0;
+        pointer-events: none;
+        background: linear-gradient(to top, rgba(8,6,4,.88) 0%, rgba(8,6,4,.42) 34%, rgba(8,6,4,.05) 62%, rgba(8,6,4,.28) 100%);
+      }
+      .hero-inner {
+        position: relative;
+        pointer-events: none;
+        width: 100%;
+        color: #f5efe2;
+        padding: clamp(20px, 4vw, 44px) clamp(18px, 4.5vw, 48px) clamp(26px, 4vw, 40px);
+        max-width: 1180px; margin: 0 auto;
+      }
+      .site-header {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+        transform: translateY(-103%);
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px clamp(18px, 4.5vw, 48px);
+        background: var(--paper);
+        background: color-mix(in srgb, var(--paper) 85%, transparent);
+        backdrop-filter: blur(12px) saturate(1.5);
+        -webkit-backdrop-filter: blur(12px) saturate(1.5);
+        border-bottom: 1px solid var(--line);
+        color: var(--ink);
+        transition: transform .38s ease, background-color .5s ease, color .5s ease, border-color .5s ease;
+      }
+      .site-header.show { transform: translateY(0); }
+      .site-header .brand {
+        font-family: "Bricolage Grotesque", "Zen Kaku Gothic New", sans-serif;
+        font-weight: 800; font-size: 27px; line-height: 1; letter-spacing: .01em;
+      }
+      .site-nav { display: flex; gap: 4px; }
+      .site-nav a {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 8px 12px; border-radius: 999px;
+        color: var(--ink); text-decoration: none;
+        font-weight: 700; font-size: 14px; line-height: 1;
+        transition: ease 0.2s;
+      }
+      .site-nav a:hover { background: var(--chip); }
+      .site-nav svg { width: 19px; height: 19px; flex: none; display: block; }
+      @media (max-width: 560px) {
+        .site-nav a { padding: 9px 10px; }
+        .site-nav .nav-label { display: none; }
+      }
+      h1.wordmark {
+        font-family: "Bricolage Grotesque", "Zen Kaku Gothic New", sans-serif;
+        font-weight: 800;
+        font-size: clamp(92px, 19vw, 218px);
+        line-height: .92;
+        margin: 30px 0 0 -0.04em;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+        transition: color .5s ease;
+      }
+      .lede {
+        font-size: clamp(16px, 2.4vw, 21px);
+        font-weight: 500;
+        line-height: 1.75;
+        max-width: 34em;
+        margin: 14px 0 0;
+        color: var(--ink);
+        transition: color .5s ease;
+        word-break: auto-phrase;
+      }
+      .lede strong { font-weight: 900; }
+      .hero-specs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-top: 28px;
+        color: var(--ink);
+        transition: color .5s ease, border-color .5s ease, background-color .5s ease;
+      }
+      @media (min-width: 821px) {
+        .hero-specs { grid-template-columns: repeat(3, 1fr); }
+      }
+      .hero-specs > div, .hero-specs > a {
+        background: var(--paper);
+        padding: 16px 18px 14px;
+        color: inherit;
+        text-decoration: none;
+        transition: background-color .25s ease;
+      }
+      .hero-specs > div:hover, .hero-specs > a:hover { background: var(--chip); }
+      .hero-specs > div:hover .ic, .hero-specs > a:hover .ic { transform: translateY(-2px); }
+      h2 { scroll-margin-top: 84px; }
+      .hero-specs .ic { display: block; width: 23px; height: 23px; color: var(--accent); margin-bottom: 9px; transition: color .5s ease, transform .25s ease; }
+      .hero-specs .ic svg { width: 100%; height: 100%; display: block; }
+      .hero-specs .n { font-family: "Bricolage Grotesque", sans-serif; font-weight: 400; font-size: 26px; line-height: 1.15; display: block; }
+      .hero-specs .t { font-size: 12.5px; color: var(--ink-soft); letter-spacing: .05em; }
+
+      /* ---------- sections ---------- */
+      section { padding: clamp(64px, 10vw, 120px) 0 0; }
+      .sec-head {
+        display: flex; align-items: baseline; gap: 18px;
+        border-top: 2px solid var(--ink);
+        padding-top: 14px;
+        margin-bottom: clamp(26px, 4vw, 44px);
+      }
+      .sec-head .no { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); font-weight: 500; }
+      .sec-head h2 { font-size: clamp(26px, 4.6vw, 40px); font-weight: 900; line-height: 1.3; margin: 0; letter-spacing: .01em; }
+      .sec-head .en { margin-left: auto; font-family: "Bricolage Grotesque", sans-serif; font-weight: 500; font-size: 14px; letter-spacing: .22em; color: var(--ink-soft); text-transform: uppercase; white-space: nowrap; }
+      @media (max-width: 560px) { .sec-head .en { display: none; } }
+      p.body { margin: 0 0 1.2em; color: var(--ink); font-size: 1rem; word-break: auto-phrase; }
+      p.body .soft { color: var(--ink-soft); }
+      figure { margin: 0; }
+      figcaption { font-size: 12.5px; color: var(--ink-soft); padding-top: 10px; text-align: center; font-family: "IBM Plex Mono", monospace; letter-spacing: .02em; }
+      .photo { border-radius: 6px; width: 100%; height: auto; }
+    @media (min-width: 900px) {
+      .split-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 44px; align-items: start; }
+      .split-grid figure { grid-column: 1; grid-row: 1; margin: 0; }
+      .split-grid .split-text { grid-column: 2; grid-row: 1; }
+      .split-grid.rev figure { grid-column: 2; }
+      .split-grid.rev .split-text { grid-column: 1; }
+    }
+    .photo { transition: opacity .35s ease; }
+    .photo.fade { opacity: 0; }
+
+      .reveal { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+
+      /* ---------- overview ---------- */
+      .stats {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+        background: var(--line); border: 1px solid var(--line);
+        margin-bottom: clamp(28px, 4vw, 44px);
+      }
+      .stats div { background: var(--card); padding: clamp(18px, 3vw, 30px); }
+      .stats .n { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: clamp(34px, 6vw, 56px); line-height: 1; display: block; }
+      .stats .n small { font-size: .45em; font-weight: 700; margin-left: 2px; }
+      .stats .t { font-size: 13.5px; color: var(--ink-soft); display: block; margin-top: 8px; line-height: 1.6; }
+      @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+
+      /* ---------- variants ---------- */
+      .variant-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+      .variant-tabs button {
+        display: inline-flex; align-items: center; gap: 10px;
+        min-height: 48px; padding: 10px 22px;
+        font: inherit; font-weight: 700; font-size: 16px;
+        background: transparent; color: var(--ink);
+        border: 1.5px solid var(--ink); border-radius: 999px;
+        cursor: pointer;
+      }
+      .variant-tabs button .dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(0,0,0,.28); flex: none; }
+      .dot-white { background: #f4f1ea; }
+      .dot-black { background: #232019; }
+      .dot-clear { background: linear-gradient(135deg, rgba(210,218,224,.35), rgba(160,170,178,.75)); }
+      .variant-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+      .variant-stage { display: grid; grid-template-columns: 1.55fr 1fr; gap: clamp(20px, 4vw, 44px); align-items: start; }
+      @media (max-width: 820px) { .variant-stage { grid-template-columns: 1fr; } }
+      .variant-photo { position: relative; background: var(--paper-2); border-radius: 6px; overflow: hidden; }
+      .variant-photo img { width: 100%; height: auto; transition: opacity .28s ease; }
+      .variant-photo img.fading { opacity: 0; }
+      .variant-photo img.soon { filter: blur(2px) saturate(.8); }
+      .soon-badge {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+        background: rgba(240, 246, 249, .28);
+        backdrop-filter: blur(3px) saturate(1.4);
+        -webkit-backdrop-filter: blur(3px) saturate(1.4);
+        color: #22303a; text-align: center;
+      }
+      .soon-badge[hidden] { display: none; }
+      .soon-badge .soon-en {
+        font-family: "Bricolage Grotesque", sans-serif; font-weight: 800;
+        font-size: clamp(30px, 6vw, 52px); letter-spacing: .14em; line-height: 1;
+        padding: 14px 26px;
+        background: rgba(255, 255, 255, .45);
+        border: 1px solid rgba(255, 255, 255, .7); border-radius: 999px;
+        backdrop-filter: blur(10px) saturate(1.6);
+        -webkit-backdrop-filter: blur(10px) saturate(1.6);
+      }
+      .soon-badge .soon-ja { font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+      .variant-info .vname { font-size: 15px; font-weight: 700; letter-spacing: .1em; color: var(--ink-soft); margin: 4px 0 2px; }
+      .variant-info .price { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: clamp(40px, 6vw, 58px); line-height: 1.1; margin: 0; }
+      .variant-info .price small { font-size: .38em; font-weight: 700; }
+      .variant-info dl { margin: 20px 0 0; border-top: 1px solid var(--line); }
+      .variant-info dl div { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+      .variant-info dt { flex: 0 0 5.5em; color: var(--ink-soft); }
+      .variant-info dd { margin: 0; font-weight: 500; }
+      .variant-note { font-size: 13.5px; color: var(--ink-soft); margin-top: 16px; line-height: 1.8; }
+
+      /* ---------- trackball ---------- */
+      .ball-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(20px, 4vw, 44px); align-items: start; }
+      @media (max-width: 820px) { .ball-grid { grid-template-columns: 1fr; } }
+      .trybox {
+        background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+        padding: clamp(20px, 3.4vw, 32px);
+      }
+      .trybox h3 { margin: 0 0 6px; font-size: 17px; font-weight: 900; }
+      .trybox p.hint { margin: 0 0 20px; font-size: 13.5px; color: var(--ink-soft); }
+      .keyrow { display: flex; gap: 14px; justify-content: center; margin-bottom: 20px; }
+      .keycap {
+        width: 76px; height: 76px; flex: none;
+        border: none; cursor: pointer;
+        border-radius: 12px;
+        background: var(--key-top);
+        color: #efe9db;
+        font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 26px;
+        box-shadow: 0 6px 0 var(--key-edge), 0 10px 18px rgba(0,0,0,.25);
+        transform: translateY(0);
+        transition: transform .06s ease, box-shadow .06s ease, background .15s ease;
+      }
+      .keycap:active { transform: translateY(4px); }
+      .keycap[aria-pressed="true"] {
+        background: var(--accent); color: var(--accent-ink);
+        transform: translateY(5px);
+        box-shadow: 0 1px 0 var(--key-edge), 0 4px 10px rgba(0,0,0,.25);
+      }
+      .readout {
+        text-align: center; border-top: 1px dashed var(--line); padding-top: 18px; min-height: 92px;
+      }
+      .readout .combo { font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .18em; color: var(--ink-soft); display: block; margin-bottom: 4px; }
+      .readout .result { font-size: clamp(21px, 3.4vw, 27px); font-weight: 900; display: block; line-height: 1.4; }
+      .combo-list { margin: clamp(24px, 4vw, 36px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+      .combo-list li { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+      .combo-list .keys { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 15px; background: var(--chip); border-radius: 5px; padding: 3px 12px; white-space: nowrap; }
+      .combo-list .what { font-weight: 700; }
+      .combo-list .desc { color: var(--ink-soft); font-size: 14px; margin-left: auto; text-align: right; }
+      @media (max-width: 560px) { .combo-list .desc { margin-left: 0; text-align: left; width: 100%; } }
+
+      /* ---------- size ---------- */
+      .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 44px); align-items: start; }
+      @media (max-width: 820px) { .size-grid { grid-template-columns: 1fr; } .size-grid .split-text { order: -1; } }
+      .dim-card { padding: 0 4px; }
+      .dim-card svg { width: 100%; height: auto; display: block; }
+      @media (max-width: 820px) { .dim-card svg { max-width: 290px; margin-inline: auto; } }
+      .box-table { display: flex; justify-content: center; }
+      .dim-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 4px; }
+      @media (min-width: 560px) { .dim-table { max-width: 480px; } }
+      .dim-table th, .dim-table td { padding: 11px 4px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: baseline; }
+      .dim-table th { font-weight: 500; color: var(--ink-soft); width: 42%; }
+      .dim-table td { font-weight: 700; font-size: 1rem; }
+      .dim-table tr:last-child th, .dim-table tr:last-child td { border-bottom: none; }
+
+      /* ---------- buy ---------- */
+      .buy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 44px); align-items: start; }
+      @media (max-width: 820px) { .buy-grid { grid-template-columns: 1fr; } }
+      .inout h3 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
+      .inout ul { margin: 0 0 26px; padding: 0; list-style: none; }
+      .inout li { padding: 9px 0 9px 30px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; }
+      .inout li::before { position: absolute; left: 2px; top: 9px; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+      .inout .in li::before { content: "○"; color: var(--accent); font-weight: 500; }
+      .inout .out li::before { content: "×"; color: var(--ink-soft); }
+      .inout li span { color: var(--ink-soft); font-size: 13.5px; display: block; }
+      .vroll { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: 16px; scrollbar-width: none; margin: 0 clamp(8px, 3.5vw, 44px); }
+    @media (min-width: 760px) { .vroll { margin: 0 clamp(60px, 18vw, 220px); } }
+      .vroll::-webkit-scrollbar { display: none; }
+      .vroll-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; }
+      .vroll-slide img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+      .vroll-tag { position: absolute; left: 12px; bottom: 12px; background: rgba(10, 8, 6, .45); color: #f5efe2; font-size: 18px; letter-spacing: .06em; padding: 7px 15px; border-radius: 999px; backdrop-filter: blur(6px); }
+      .vroll-pager { display: flex; gap: 7px; justify-content: center; margin: 12px 0 22px; }
+      .vroll-pager button { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--ink-soft); background: transparent; padding: 0; cursor: pointer; transition: background-color .3s ease, border-color .3s ease; }
+      .vroll-pager button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); }
+      .price-table { width: 100%; border-collapse: collapse; font-size: 15.5px; margin-bottom: 22px; }
+      .price-table th, .price-table td { padding: 12px 4px; border-bottom: 1px solid var(--line); text-align: left; }
+      .price-table td.p { text-align: right; font-family: "IBM Plex Mono", monospace; font-weight: 500; white-space: nowrap; }
+      .price-table .dotcell { width: 30px; }
+      .price-table .dot { width: 15px; height: 15px; border-radius: 50%; border: 1px solid rgba(0,0,0,.28); display: inline-block; vertical-align: -2px; }
+      .terms { font-size: 14.5px; margin: 0 0 26px; padding: 0; list-style: none; }
+      .terms li { padding: 7px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 14px; }
+      .terms li b { flex: 0 0 6.5em; font-weight: 700; }
+      .cta {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+        background: var(--ink); color: var(--paper);
+        border-radius: 8px; padding: clamp(20px, 3.4vw, 30px);
+      }
+      .cta .cta-text { flex: 1 1 220px; }
+      .cta .cta-text .big { font-size: 19px; font-weight: 900; display: block; line-height: 1.5; }
+      .cta .cta-text .small { font-size: 13.5px; opacity: .75; }
+      .cta-row { padding: 30px 0 0; text-align: center; }
+      .buy-link {
+        display: inline-flex; align-items: center; gap: 9px;
+        font-size: clamp(19px, 3.2vw, 24px); font-weight: 900; line-height: 1.2;
+        color: var(--accent);
+        text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px;
+        transition: color .2s ease;
+      }
+      .buy-link:hover {
+        color: var(--ink);
+      }
+      .buy-link svg { width: 21px; height: 21px; flex: none; transform: translateY(3px); transition: transform .3s ease; }
+      .buy-link:hover svg { transform: translate(3px, 3px); }
+      .cta a.btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 54px; padding: 12px 30px;
+        background: var(--accent); color: var(--accent-ink);
+        font-weight: 900; font-size: 16.5px; text-decoration: none;
+        border-radius: 6px; white-space: nowrap;
+      }
+      .cta a.btn:hover { filter: brightness(1.08); }
+      /* ---------- Specifications ---------- */
+      .color-list { list-style: none; padding: 0 }
+      /* ---------- FAQ ---------- */
+      .faq-item { border-top: 1px solid var(--line); padding: 18px 0; transition: border-color .5s ease; }
+      .faq-item p { color: var(--ink-soft); font-size: 15px; line-height: 1.8; max-width: 38em; margin-top: 10px; }
+      .faq-item { position: relative; }
+      .faq-toggle { position: absolute; opacity: 0; width: 1px; height: 1px; }
+      .faq-q { font-size: 16.5px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+      .faq-q::after { content: "+"; font-family: "IBM Plex Mono", monospace; font-weight: 400; font-size: 20px; color: var(--accent); flex: none; transition: transform .25s ease; }
+      .faq-toggle:checked ~ .faq-q::after { transform: rotate(45deg); }
+      .faq-toggle:focus-visible ~ .faq-q { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .faq-a { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .28s ease-out, opacity .28s ease-out; }
+      .faq-a > div { overflow: hidden; min-height: 0; }
+      .faq-toggle:checked ~ .faq-a { grid-template-rows: 1fr; opacity: 1; }
+      footer {
+        margin-top: clamp(70px, 10vw, 120px);
+        border-top: 2px solid var(--ink);
+        padding: 22px 0 40px;
+      }
+      footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: baseline; }
+      footer .fname { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 22px; }
+      footer .fmeta { font-size: 13px; color: var(--ink-soft); }
+      footer a { text-decoration: underline; text-underline-offset: 3px; }
+      .flinks { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 8px; justify-content: flex-end; margin-left: auto; }
+      .flinks a { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color .2s ease; }
+      .flinks a:hover { color: var(--accent); }
+      .flinks svg { width: 16px; height: 16px; display: block; }
+    </style>
+  </head>
+  <body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+      <span class="brand">lea</span>
+      <nav class="site-nav" aria-label="外部リンク">
+        <a href="https://tomori-k.booth.pm/items/8169267" target="_blank" rel="noopener" aria-label="BOOTH で見る">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.15 12.1a1.6 1.6 0 0 1-1.6 1.4H7.75a1.6 1.6 0 0 1-1.6-1.4L5 8Z"/><path d="M8.6 10.2V6.6a3.4 3.4 0 0 1 6.8 0v3.6" stroke-linecap="round"/></svg>
+          <span class="nav-label">BOOTH</span>
+        </a>
+        <a href="https://github.com/tomori-k/zmk-config-broccoli" target="_blank" rel="noopener" aria-label="GitHub（キーマップ）">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span class="nav-label">GitHub</span>
+        </a>
+        <a href="https://x.com/kiromot" target="_blank" rel="noopener" aria-label="X（@kiromot）">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2.6h3.1l-6.8 7.8 8 10.9h-6.3l-4.9-6.4-5.6 6.4H3.3l7.3-8.3-7.7-10.4h6.4l4.4 5.9 5.2-5.9Zm-1.1 16.9h1.7L8.4 4.4H6.6l11.2 15.1Z"/></svg>
+          <span class="nav-label">X</span>
+        </a>
+        <a href="https://note.com/tomori_k" target="_blank" rel="noopener" aria-label="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h8l4 4v13h-12v-17Z"/><path d="M14.5 3.5v4h4" stroke-linecap="round"/><path d="M9.3 12.5h5.4M9.3 16h5.4" stroke-linecap="round"/></svg>
+          <span class="nav-label">note</span>
+        </a>
+      </nav>
+    </header>
+
+    <!-- ================= HERO ================= -->
+    <header class="hero">
+      <div class="hero-scroll" id="hero-scroll">
+        <div class="hero-slide" data-variant="white"><img src="assets/white-hero.jpg" alt="木の机の上に置かれた白い lea の左右本体。右手側に銀色のトラックボール" /></div>
+        <div class="hero-slide" data-variant="black"><img src="assets/hero.jpg" alt="デスクマットの上に置かれた黒い lea の左右本体" fetchpriority="high" /></div>
+        <div class="hero-slide" data-variant="clear"><img src="assets/clear.jpg" alt="半透明の lea の左手側ユニットを真上から見た写真。中が透けて見える" /></div>
+      </div>
+
+      <div class="hero-pager">
+        <button type="button" class="pdot" data-variant="white" aria-selected="false" aria-label="白の写真へ"></button>
+        <button type="button" class="pdot" data-variant="black" aria-selected="true" aria-label="黒の写真へ"></button>
+        <button type="button" class="pdot" data-variant="clear" aria-selected="false" aria-label="半透明の写真へ"></button>
+        <span class="pname" id="hero-color-name">黒</span>
+      </div>
+      <div class="hero-brand" aria-hidden="true">lea</div>
+    </header>
+
+    <main class="wrap">
+
+      <h1 class="wordmark">lea</h1>
+      <p class="lede">は <strong>トラックボール付き 30% 無線分割キーボード</strong>。片側 <strong>128x94 mm</strong> の小さな筐体に、直径 <strong>25mm</strong> の大きなトラックボールを搭載しています。</p>
+      <div class="hero-specs">
+        <a href="#h-layout"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.6" y="5" width="4.4" height="4.4" rx="1.1"/><rect x="9.8" y="5" width="4.4" height="4.4" rx="1.1"/><rect x="16" y="5" width="4.4" height="4.4" rx="1.1"/><rect x="3.6" y="14.6" width="4.4" height="4.4" rx="1.1"/><rect x="9.8" y="14.6" width="4.4" height="4.4" rx="1.1"/><rect x="16" y="14.6" width="4.4" height="4.4" rx="1.1"/></svg></span><span class="n">特殊 6×3 レイアウト</span></a>
+        <a href="#h-ball"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="9.2" cy="9.2" r="1.5"/></svg></span><span class="n">25mm トラックボール</span></a>
+        <a href="#h-size"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 15v5h-5"/><path d="M4.5 4.5 10 10M19.5 19.5 14 14"/></svg></span><span class="n">片側 128×98mm</span></a>
+        <a href="#h-zmk"><span class="ic zmk"><svg viewBox="0 0 135.47 135.47" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="zmk-grad" x2="135.5" y1="-.19" y2="135.32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#026fc5" offset="0"/>
+      <stop stop-color="#7829d1" offset="1"/>
+    </linearGradient>
+  </defs>
+  <g stroke-linecap="round">
+    <path fill="url(#zmk-grad)" stroke="url(#zmk-grad)" stroke-linejoin="round" stroke-width=".15" style="mix-blend-mode:normal" paint-order="stroke markers fill" d="M26-.19h83.5a26 26 0 0 1 26 26v83.5a26 26 0 0 1-26 26H26a26 26 0 0 1-26-26v-83.5a26 26 0 0 1 26-26z"/>
+    <g fill="none" stroke="#fff" stroke-width="8.76">
+      <g stroke-linejoin="round">
+        <path d="M53.52 85.45V48.48l14.24 18.16 14.19-18.1v37.59M15.49 48.89h22.14l-21.31 36.9h20.53M98.56 48.39V87"/>
+      </g>
+      <path d="M119.86 48.5l-18.32 18.14 18.44 20.44" stroke-linejoin="bevel" stroke-miterlimit="0"/>
+    </g>
+  </g>
+</svg></span><span class="n">ZMK Firmware</span></a>
+        <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><span class="n">Kailh Choc V2</span></div>
+        <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/></svg></span><span class="n">Bluetooth</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="buy-link" href="https://tomori-k.booth.pm/items/8169267" target="_blank" rel="noopener">購入はこちら<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/></svg></a>
+      </div>
+
+      <!-- ================= 01 ================= -->
+      <section class="reveal" aria-labelledby="h-layout">
+        <div class="sec-head">
+          <h2 id="h-layout">特殊 6×3 レイアウト</h2>
+        </div>
+        <div class="split-grid">
+        <div class="split-text">
+          <p class="body">lea は特殊な 6x3 レイアウトを採用しています。</p>
+          <p class="body">いま主流の分割キーボードでは、キーボードの頭脳 (マイコン) を人差し指側を1列増やして配置するのが一般的です。</p>
+          <p class="body">一方 lea は、小指側の一番手が届きにくい箇所に配置しています。これにより、大きさは5列の分割キーボードと同じで、6列の使い勝手を両立しています。</p>
+        </div>
+        <figure>
+          <img class="photo" src="assets/layout-black.jpg" data-w="assets/layout-white.jpg" data-b="assets/layout-black.jpg" data-c="assets/mix.jpg" alt="lea の左右本体。右手側に銀色のトラックボール" loading="lazy" />
+          <figcaption>30% レイアウト</figcaption>
+        </figure>
+        </div>
+      </section>
+
+      <!-- ================= 02 ================= -->
+      <section class="reveal" aria-labelledby="h-ball">
+        <div class="sec-head">
+          <h2 id="h-ball">25mm トラックボール</h2>
+        </div>
+        <div class="split-grid rev">
+          <div class="split-text">
+            <p class="body">lea は、30% の超小型キーボードでありながら、比較的大きな &#8960; 25mm のトラックボールを搭載しています。 </p>
+            <p class="body">またトラックボールケースがカーソル操作を妨げないよう、ボールを保持するためのツメが最小限になるよう設計されています。</p>
+            <p class="body">さらにトラックボールの高さも、キーの上に指を置いたときに、ボールが真横に来るように mm 単位で調整されています。</p>
+            <p class="body">これらの細やかな工夫により、小さいながらも自在に、ホームポジションから指を全く動かすことなく快適なカーソル操作が可能になっています。</p>
+          </div>
+          <figure>
+            <img class="photo" src="assets/ball.jpg" data-w="assets/ball-white.jpg" data-b="assets/ball.jpg" data-c="assets/ball-clear.jpg" alt="右手側ユニットのトラックボールの接写" loading="lazy" />
+            <figcaption>トラックボール</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ================= 03 ================= -->
+      <section class="reveal" aria-labelledby="h-size">
+        <div class="sec-head">
+          <h2 id="h-size">片手に収まるサイズ感</h2>
+        </div>
+        <div class="size-grid">
+          <div class="dim-card">
+            <svg viewBox="0 0 380 300" role="img" aria-label="lea の寸法図：右ユニット127.9×97.7ミリ、トラックボール直径25ミリ">
+              <g fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.9">
+                <rect x="42" y="52" width="262" height="192" rx="16" />
+                <circle cx="124" cy="226" r="26" />
+              </g>
+              <g stroke="var(--accent)" stroke-width="1.2">
+                <line x1="42" y1="30" x2="304" y2="30" />
+                <line x1="322" y1="52" x2="322" y2="252" />
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="15" fill="currentColor">
+                <text x="173" y="20" text-anchor="middle">127.9</text>
+                <text x="330" y="152">97.7</text>
+                <text x="124" y="292" text-anchor="middle" fill="var(--accent)">BALL ⌀25</text>
+              </g>
+            </svg>
+          </div>
+          <div class="split-text">
+            <p class="body">lea の片側の大きさは 128×94mm、高さは17.4mmです。とても小さく、ちょうど手のひらに乗るサイズ感です。さらに無線キーボードなので、持ち運びに最適です。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 04 ================= -->
+      <section class="reveal" aria-labelledby="h-zmk">
+        <div class="sec-head">
+          <h2 id="h-zmk">ZMK Firmware</h2>
+        </div>
+        <p class="body">
+          lea は ZMK Firmware を採用しています。ZMK は、無線キーボード向けに設計されたオープンソースのファームウェアで、省電力かつ高いカスタマイズ性を備えています。
+        </p>
+        <p class="body">lea のデフォルトのキーマップは以下のようになっていますが、好みで自由にカスタマイズできます。こちらで設定のコツを解説しています: <a href="https://zenn.dev/tomori_k/articles/9793e7300488f6">エンジニアのためのZMKのキーマップ設定</a></p>
+        <figure style="max-width: 760px; margin: 26px auto 0;">
+          <img src="assets/keymap-default.svg" alt="lea のキーマップ（デフォルトレイヤー）" loading="lazy" style="width: 100%; height: auto; display: block;" />
+          <figcaption>作者のガチキーマップ</figcaption>
+        </figure>
+      </section>
+
+      <!-- ================= 05 VARIATIONS ================= -->
+      <section class="reveal" aria-labelledby="h-variations">
+        <div class="sec-head">
+          <h2 id="h-variations">バリエーション</h2>
+        </div>
+        <div class="vroll" id="vroll" aria-label="カラーの写真">
+          <div class="vroll-slide"><img src="assets/white.jpg" alt="白い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">白 ¥31,800</span></div>
+          <div class="vroll-slide"><img src="assets/black.jpg" alt="木の机の上に置かれた黒い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">黒 ¥39,800</span></div>
+          <div class="vroll-slide"><img src="assets/clear.jpg" alt="半透明の lea の左手側ユニットを真上から見た写真。中が透けて見える" loading="lazy" /><span class="vroll-tag">半透明 ¥39,800</span></div>
+        </div>
+        <div class="vroll-pager" id="vroll-pager" role="tablist" aria-label="カラー写真の切り替え">
+          <button type="button" role="tab" aria-selected="true" aria-label="白の写真"></button>
+          <button type="button" role="tab" aria-selected="false" aria-label="黒の写真"></button>
+          <button type="button" role="tab" aria-selected="false" aria-label="半透明の写真"></button>
+        </div>
+      </section>
+
+      <!-- ================= 06 ================= -->
+      <section class="reveal" aria-labelledby="h-specs">
+        <div class="sec-head">
+          <h2 id="h-specs">仕様</h2>
+        </div>
+        <div class="box-table">
+          <table class="dim-table">
+            <tr><th>レイアウト</th><td>30%、6列×3行、37キー</td></tr>
+            <tr><th>サイズ</th><td>127.9 × 94.0 (ボール部+3.7) mm</td></tr>
+            <tr><th>高さ</th><td>17.4 mm（ボール部 30.7 mm）</td></tr>
+            <tr><th>ファームウェア</th><td>ZMK Firmware</td></tr>
+            <tr><th>キースイッチ</th><td>Kailh Choc V2、ホットスワップ<br/>※キーキャップ・スイッチは別売り</td></tr>
+            <tr><th>接続</th><td>無線 (Bluetooth LE) または有線 (USB-C)</td></tr>
+            <tr><th>バッテリー</th><td>110 mAh / USB-C 充電</td></tr>
+            <tr><th>カラー</th><td>
+              <ul class="color-list">
+                <li>白：レジン</li>
+                <li>黒：ナイロン</li>
+                <li>半透明：レジン (Comming Soon)</li>
+              </ul>
+            </td></tr>
+          </table>
+        </div>
+      </section>
+      <!-- ================= 07 FAQ ================= -->
+      <section class="reveal" aria-labelledby="h-faq">
+        <div class="sec-head">
+          <h2 id="h-faq">FAQ</h2>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-1" class="faq-toggle" />
+          <label class="faq-q" for="faq-1">キースイッチとキーキャップは付属しますか？</label>
+          <div class="faq-a"><div><p>付属しません。Kailh Choc V2 対応のキースイッチと、Choc V2 用のロープロファイルキーキャップを別途ご用意ください。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-2" class="faq-toggle" />
+          <label class="faq-q" for="faq-2">スイッチの交換にはんだ付けは必要ですか？</label>
+          <div class="faq-a"><div><p>必要ありません。ソケット式（ホットスワップ）なので、そのまま抜き差しできます。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-3" class="faq-toggle" />
+          <label class="faq-q" for="faq-3">充電はどうしますか？</label>
+          <div class="faq-a"><div><p>USB-C で充電します。ケーブルは付属しません。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-4" class="faq-toggle" />
+          <label class="faq-q" for="faq-4">キーマップは変更できますか？</label>
+          <div class="faq-a"><div><p>できます。ファームウェアは ZMK で、キーの割り当てやレイヤーを自分で書き換えられます。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-5" class="faq-toggle" />
+          <label class="faq-q" for="faq-5">注文してからどのくらいで届きますか？</label>
+          <div class="faq-a"><div><p>注文から 3〜4日で発送します。送料は ¥740 です。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-6" class="faq-toggle" />
+          <label class="faq-q" for="faq-6">初期不良があったらどうなりますか？</label>
+          <div class="faq-a"><div><p>到着後7日以内にご連絡いただければ、無償で修理します。</p></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span class="fname">lea</span>
+        <span class="fmeta">designed by tomori-k</span>
+        <nav class="flinks" aria-label="リンク">
+          <a href="https://tomori-k.booth.pm/items/8169267" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.15 12.1a1.6 1.6 0 0 1-1.6 1.4H7.75a1.6 1.6 0 0 1-1.6-1.4L5 8Z"/><path d="M8.6 10.2V6.6a3.4 3.4 0 0 1 6.8 0v3.6" stroke-linecap="round"/></svg>BOOTH</a>
+          <a href="https://github.com/tomori-k/zmk-config-broccoli" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+          <a href="https://x.com/kiromot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2.6h3.1l-6.8 7.8 8 10.9h-6.3l-4.9-6.4-5.6 6.4H3.3l7.3-8.3-7.7-10.4h6.4l4.4 5.9 5.2-5.9Zm-1.1 16.9h1.7L8.4 4.4H6.6l11.2 15.1Z"/></svg>X</a>
+          <a href="https://note.com/tomori_k" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h8l4 4v13h-12v-17Z"/><path d="M14.5 3.5v4h4" stroke-linecap="round"/><path d="M9.3 12.5h5.4M9.3 16h5.4" stroke-linecap="round"/></svg>note</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        /* ---------- variant switcher ---------- */
+        var variants = {
+          white: {
+            short: "白",
+            texImg: "assets/white.jpg",
+            texAlt: "白い lea の右手側ユニット。つるりとしたレジン製の表面",
+            texCap: "白（レジン製）。つるりとした表面です",
+            img: "assets/white.jpg",
+            alt: "白い lea の右手側ユニットを真上から見た写真。銀色のトラックボール付き",
+            cap: "白（レジン製）",
+            name: "WHITE — 白",
+            price: "¥31,800",
+            material: "レジン製",
+            look: "つるりとした白。キーキャップの色が映える色です",
+            theme: "light",
+            status: "再販準備中（在庫なし）"
+          },
+          black: {
+            short: "黒",
+            texImg: "assets/texture.jpg",
+            texAlt: "黒い lea のケース表面とキーキャップの接写",
+            texCap: "黒のケース表面。粒状の質感が指先に残ります",
+            img: "assets/black.jpg",
+            alt: "木の机の上に置かれた黒い lea の左右本体を真上から見た写真",
+            cap: "黒（ナイロン製）",
+            name: "BLACK — 黒",
+            price: "¥39,800",
+            material: "ナイロン製",
+            look: "マットな黒。表面に細かい粒状の質感があります",
+            theme: "dark",
+            status: "再販準備中（在庫なし）"
+          },
+          clear: {
+            short: "半透明",
+            texImg: "assets/clear.jpg",
+            texAlt: "半透明の lea の左手側ユニット。中が透けて見える",
+            texCap: "半透明（レジン製）。中が透けて見えます",
+            img: "assets/clear.jpg",
+            alt: "半透明の lea の左手側ユニットを真上から見た写真。中が透けて見える",
+            cap: "半透明（レジン製）",
+            name: "CLEAR — 半透明",
+            price: "¥39,800",
+            material: "レジン製",
+            look: "ケースが透けて、中の基板が見えます",
+            theme: "glass",
+            status: "準備中（COMING SOON）"
+          }
+        };
+        var img = document.getElementById("variant-img");
+        var cap = document.getElementById("variant-cap");
+        var vName = document.getElementById("variant-name");
+        var vPrice = document.getElementById("variant-price");
+        var vMat = document.getElementById("variant-material");
+        var vLook = document.getElementById("variant-look");
+        var vStatus = document.getElementById("variant-status");
+        var soonBadge = document.getElementById("soon-badge");
+        var texImg = document.getElementById("texture-img");
+        var texCap = document.getElementById("texture-cap");
+        var tabs = Array.prototype.slice.call(document.querySelectorAll(".variant-tabs button"));
+        var pdots = Array.prototype.slice.call(document.querySelectorAll(".hero-pager .pdot"));
+        var heroName = document.getElementById("hero-color-name");
+        var scroller = document.getElementById("hero-scroll");
+        var slides = Array.prototype.slice.call(document.querySelectorAll(".hero-slide"));
+        var order = ["white", "black", "clear"];
+        var currentVariant = "black";
+        // preload
+        Object.keys(variants).forEach(function (k) { var i = new Image(); i.src = variants[k].img; });
+
+        function applyVariant(key) {
+          var v = variants[key];
+          if (!v || key === currentVariant) return;
+          currentVariant = key;
+          document.documentElement.setAttribute("data-theme", v.theme);
+          tabs.forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-variant") === key ? "true" : "false"); });
+          pdots.forEach(function (d) { d.setAttribute("aria-selected", d.getAttribute("data-variant") === key ? "true" : "false"); });
+          heroName.textContent = v.short;
+          var tmap = { white: 'w', black: 'b', clear: 'c' };
+          document.querySelectorAll('img[data-w]').forEach(function (im) {
+            var nsrc = im.getAttribute('data-' + tmap[key]);
+            if (nsrc && im.getAttribute('src') !== nsrc) {
+              im.classList.add('fade');
+              setTimeout(function () { im.src = nsrc; }, 180);
+              im.onload = function () { im.classList.remove('fade'); };
+            }
+          });
+          if (!img) return;
+          img.classList.add("fading");
+          setTimeout(function () {
+            img.src = v.img; img.alt = v.alt;
+            cap.textContent = v.cap;
+            vName.textContent = v.name;
+            vPrice.textContent = v.price;
+            vMat.textContent = v.material;
+            vLook.textContent = v.look;
+            vStatus.textContent = v.status;
+            texImg.src = v.texImg; texImg.alt = v.texAlt;
+            texCap.textContent = v.texCap;
+            var isClear = key === "clear";
+            soonBadge.hidden = !isClear;
+            img.classList.toggle("soon", isClear);
+            img.classList.remove("fading");
+          }, 200);
+        }
+
+        function scrollToSlide(key, smooth) {
+          var idx = order.indexOf(key);
+          if (idx < 0 || !scroller) return;
+          scroller.scrollTo({ left: idx * scroller.clientWidth, behavior: smooth ? "smooth" : "auto" });
+        }
+
+        tabs.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var key = btn.getAttribute("data-variant");
+            applyVariant(key);
+            scrollToSlide(key, true);
+          });
+        });
+        pdots.forEach(function (d) {
+          d.addEventListener("click", function () {
+            var key = d.getAttribute("data-variant");
+            applyVariant(key);
+            scrollToSlide(key, true);
+          });
+        });
+
+        // hero camera roll: start on the black slide, follow swipes
+        scrollToSlide("black", false);
+        if (scroller && "IntersectionObserver" in window) {
+          var so = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) applyVariant(e.target.getAttribute("data-variant"));
+            });
+          }, { root: scroller, threshold: 0.6 });
+          slides.forEach(function (sl) { so.observe(sl); });
+        }
+        window.addEventListener("resize", function () { scrollToSlide(currentVariant, false); });
+
+        /* ---------- header appears after the hero ---------- */
+        var siteHeader = document.querySelector(".site-header");
+        var heroEl = document.querySelector(".hero");
+        if (siteHeader && heroEl && "IntersectionObserver" in window) {
+          var ho = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              siteHeader.classList.toggle("show", !e.isIntersecting);
+            });
+          }, { threshold: 0 });
+          ho.observe(heroEl);
+        } else if (siteHeader) {
+          siteHeader.classList.add("show");
+        }
+
+        /* ---------- reveal on scroll ---------- */
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var targets = document.querySelectorAll(".reveal");
+        if (reduced || !("IntersectionObserver" in window)) {
+          targets.forEach(function (el) { el.classList.add("in"); });
+        } else {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+            });
+          }, { threshold: 0.08 });
+          targets.forEach(function (el) { io.observe(el); });
+        }
+
+        /* variations photo roll (no theme change) */
+        var vroll = document.getElementById("vroll");
+        var vpager = document.getElementById("vroll-pager");
+        if (vroll && vpager) {
+          var vdots = Array.prototype.slice.call(vpager.querySelectorAll("button"));
+          var vslides = Array.prototype.slice.call(vroll.querySelectorAll(".vroll-slide"));
+          vdots.forEach(function (d, i) {
+            d.addEventListener("click", function () {
+              vroll.scrollTo({ left: i * vroll.clientWidth, behavior: "smooth" });
+            });
+          });
+          if ("IntersectionObserver" in window) {
+            var vio = new IntersectionObserver(function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  var i = vslides.indexOf(e.target);
+                  vdots.forEach(function (d, j) { d.setAttribute("aria-selected", i === j ? "true" : "false"); });
+                }
+              });
+            }, { root: vroll, threshold: 0.6 });
+            vslides.forEach(function (sl) { vio.observe(sl); });
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
