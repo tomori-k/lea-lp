@@ -85,6 +85,7 @@
       a { color: inherit; }
       .mono { font-family: "IBM Plex Mono", monospace; }
       .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4.5vw, 48px); }
+      .note { font-size: 14px; color: var(--ink-soft) }
 
       /* ---------- hero ---------- */
       .hero {
@@ -492,7 +493,7 @@
       <div class="hero-scroll" id="hero-scroll">
         <div class="hero-slide" data-variant="white"><img src="assets/white-hero.jpg" alt="木の机の上に置かれた白い lea の左右本体。右手側に銀色のトラックボール" /></div>
         <div class="hero-slide" data-variant="black"><img src="assets/hero.jpg" alt="デスクマットの上に置かれた黒い lea の左右本体" fetchpriority="high" /></div>
-        <div class="hero-slide" data-variant="clear"><img src="assets/clear.jpg" alt="半透明の lea の左手側ユニットを真上から見た写真。中が透けて見える" /></div>
+        <div class="hero-slide" data-variant="clear"><img src="assets/mix.jpg" alt="半透明（左）と白（右）の lea の左右本体を真上から見た写真" /></div>
       </div>
 
       <div class="hero-pager">
@@ -545,7 +546,7 @@
         <div class="split-text">
           <p class="body">lea は特殊な 6x3 レイアウトを採用しています。</p>
           <p class="body">いま主流の分割キーボードでは、キーボードの頭脳 (マイコン) を人差し指側を1列増やして配置するのが一般的です。</p>
-          <p class="body">一方 lea は、小指側の一番手が届きにくい箇所に配置しています。これにより、大きさは5列の分割キーボードと同じで、6列の使い勝手を両立しています。</p>
+          <p class="body">一方 lea は、小指側の一番手が届きにくい箇所に配置しています。これにより、大きさは5列の分割キーボードのまま、6列の使い勝手を両立しています。</p>
         </div>
         <figure>
           <img class="photo" src="assets/layout-black.jpg" data-w="assets/layout-white.jpg" data-b="assets/layout-black.jpg" data-c="assets/mix.jpg" alt="lea の左右本体。右手側に銀色のトラックボール" loading="lazy" />
@@ -622,10 +623,13 @@
         <div class="sec-head">
           <h2 id="h-variations">バリエーション</h2>
         </div>
+        <p class="body">
+          写真は設計段階のものも含んでいます。製造時期によっては写真と少し異なるものが届く可能性があることをご承知ください。
+        </p>
         <div class="vroll" id="vroll" aria-label="カラーの写真">
-          <div class="vroll-slide"><img src="assets/white.jpg" alt="白い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">白 ¥31,800</span></div>
-          <div class="vroll-slide"><img src="assets/black.jpg" alt="木の机の上に置かれた黒い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">黒 ¥39,800</span></div>
-          <div class="vroll-slide"><img src="assets/clear.jpg" alt="半透明の lea の左手側ユニットを真上から見た写真。中が透けて見える" loading="lazy" /><span class="vroll-tag">半透明 ¥39,800</span></div>
+          <div class="vroll-slide"><img src="assets/white-hero.jpg" alt="白い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">白 ¥31,800</span></div>
+          <div class="vroll-slide"><img src="assets/hero.jpg" alt="木の机の上に置かれた黒い lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">黒 ¥39,800</span></div>
+          <div class="vroll-slide"><img src="assets/mix.jpg" alt="半透明（左）と白（右）の lea の左右本体を真上から見た写真" loading="lazy" /><span class="vroll-tag">半透明 (Coming Soon) ¥39,800</span></div>
         </div>
         <div class="vroll-pager" id="vroll-pager" role="tablist" aria-label="カラー写真の切り替え">
           <button type="button" role="tab" aria-selected="true" aria-label="白の写真"></button>
@@ -641,18 +645,18 @@
         </div>
         <div class="box-table">
           <table class="dim-table">
-            <tr><th>レイアウト</th><td>30%、6列×3行、37キー</td></tr>
-            <tr><th>サイズ</th><td>127.9 × 94.0 (ボール部+3.7) mm</td></tr>
-            <tr><th>高さ</th><td>17.4 mm（ボール部 30.7 mm）</td></tr>
-            <tr><th>ファームウェア</th><td>ZMK Firmware</td></tr>
+            <tr><th>レイアウト</th><td>30%、特殊6列×3行、37キー</td></tr>
+            <tr><th>キーピッチ</th><td>19.05 mm（通常ピッチ）</td></tr>
             <tr><th>キースイッチ</th><td>Kailh Choc V2、ホットスワップ<br/>※キーキャップ・スイッチは別売り</td></tr>
+            <tr><th>サイズ (mm)</th><td>W127.9 × D94.0 (ボール部+3.7) × H17.4（ボール部 30.7）</td></tr>
             <tr><th>接続</th><td>無線 (Bluetooth LE) または有線 (USB-C)</td></tr>
             <tr><th>バッテリー</th><td>110 mAh / USB-C 充電</td></tr>
+            <tr><th>動作時間</th><td>セントラル：1〜2週間<br/>ペリフェラル：1ヶ月<br/><span class="note">※作者環境でのテスト値であり、この長さの動作は保証はしません。目安とお考えください</span></td></tr>
             <tr><th>カラー</th><td>
               <ul class="color-list">
                 <li>白：レジン</li>
                 <li>黒：ナイロン</li>
-                <li>半透明：レジン (Comming Soon)</li>
+                <li>半透明：レジン (Coming Soon)</li>
               </ul>
             </td></tr>
           </table>
@@ -664,14 +668,29 @@
           <h2 id="h-faq">FAQ</h2>
         </div>
         <div class="faq-item">
+          <input type="checkbox" id="faq-assembled" class="faq-toggle" />
+          <label class="faq-q" for="faq-assembled">組み立て済みですか？</label>
+          <div class="faq-a"><div><p>はい、組み立て済みです。ただし、キースイッチ・キーキャップ・25mm のトラックボールはご自身で用意が必要です。</p></div></div>
+        </div>
+        <div class="faq-item">
           <input type="checkbox" id="faq-1" class="faq-toggle" />
           <label class="faq-q" for="faq-1">キースイッチとキーキャップは付属しますか？</label>
-          <div class="faq-a"><div><p>付属しません。Kailh Choc V2 対応のキースイッチと、Choc V2 用のロープロファイルキーキャップを別途ご用意ください。</p></div></div>
+          <div class="faq-a"><div><p>いいえ、付属しません。Kailh Choc V2 対応のキースイッチと、Choc V2 用のロープロファイルキーキャップを別途ご用意ください。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-choc-v1" class="faq-toggle" />
+          <label class="faq-q" for="faq-choc-v1">Choc V1 対応ですか？</label>
+          <div class="faq-a"><div><p>Choc V1 のスイッチが使えるかどうかは未確認です。確認された方いれば教えてください。</p></div></div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq-price-color" class="faq-toggle" />
+          <label class="faq-q" for="faq-price-color">色によって価格が違うのはなぜですか？</label>
+          <div class="faq-a"><div><p>ケースの原価差によるものです。</p></div></div>
         </div>
         <div class="faq-item">
           <input type="checkbox" id="faq-2" class="faq-toggle" />
           <label class="faq-q" for="faq-2">スイッチの交換にはんだ付けは必要ですか？</label>
-          <div class="faq-a"><div><p>必要ありません。ソケット式（ホットスワップ）なので、そのまま抜き差しできます。</p></div></div>
+          <div class="faq-a"><div><p>いいえ、必要ありません。ソケット式（ホットスワップ）なので、そのまま抜き差しできます。</p></div></div>
         </div>
         <div class="faq-item">
           <input type="checkbox" id="faq-3" class="faq-toggle" />
@@ -681,17 +700,17 @@
         <div class="faq-item">
           <input type="checkbox" id="faq-4" class="faq-toggle" />
           <label class="faq-q" for="faq-4">キーマップは変更できますか？</label>
-          <div class="faq-a"><div><p>できます。ファームウェアは ZMK で、キーの割り当てやレイヤーを自分で書き換えられます。</p></div></div>
+          <div class="faq-a"><div><p>はい、できます。ファームウェアは ZMK で、キーの割り当てやレイヤーを自分で書き換えられます。</p></div></div>
         </div>
         <div class="faq-item">
           <input type="checkbox" id="faq-5" class="faq-toggle" />
           <label class="faq-q" for="faq-5">注文してからどのくらいで届きますか？</label>
-          <div class="faq-a"><div><p>注文から 3〜4日で発送します。送料は ¥740 です。</p></div></div>
+          <div class="faq-a"><div><p>在庫があれば、注文から3〜4日で発送予定です。</p></div></div>
         </div>
         <div class="faq-item">
           <input type="checkbox" id="faq-6" class="faq-toggle" />
           <label class="faq-q" for="faq-6">初期不良があったらどうなりますか？</label>
-          <div class="faq-a"><div><p>到着後7日以内にご連絡いただければ、無償で修理します。</p></div></div>
+          <div class="faq-a"><div><p>到着後7日以内にご連絡いただき、こちらの製造過程に不備があることが確認できれば、無償で対応します。</p></div></div>
         </div>
       </section>
     </main>
@@ -744,7 +763,7 @@
             status: "再販準備中（在庫なし）"
           },
           clear: {
-            short: "半透明",
+            short: "半透明 (COMING SOON)",
             texImg: "assets/clear.jpg",
             texAlt: "半透明の lea の左手側ユニット。中が透けて見える",
             texCap: "半透明（レジン製）。中が透けて見えます",
